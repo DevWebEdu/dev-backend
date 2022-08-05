@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Departamento {
+  id           Int          @id @unique @default(autoincrement())
+  nombre       String       @db.VarChar(45) //hacemos que sea el tipo de dato exacto
+  // #https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+  // columna que jala automaticamente la hora del servidor para cuando se crea un nuevo registro
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updateAt     DateTime     @updatedAt @map("update_at")
+  //un departamento tiene muchos trabajadores
+  trabajadores Trabajador[]
+
+  @@map("departamentos")
+}
+
+model Trabajador {
+  id             Int            @id @unique @default(autoincrement())
+  nombre         String         @db.VarChar(45)
+  // "?" indica que puede ser nulo o no
+  apellido       String?        @db.VarChar(45)
+  email          String         @unique @db.VarChar(45)
+  password       String         @db.Text
+  rol            ROL_TRABAJADOR @default(OBRERO)
+  //se crea la relacion
+  departamentoId Int            @map("departamento_id")
+  supervisorId   Int?           @map("supervisor_id")
+  validado       Boolean        @default(false)
+  //un trabajador pertenece aun departamento
+  departamento   Departamento   @relation(fields: [departamentoId], references: [id])
+
+  //muchas asistencias
+  asistencias Asistencia[]
+
+  //supervisores
+  //para crear una relacion de una tabla consigo misma se define el nombre de la relacion
+  trabajadores Trabajador[] @relation("trabajadores")
+  supervisor   Trabajador?  @relation("trabajadores", fields: [supervisorId], references: [id])
+
+  @@map("trabajadores")
+}
+
+model Asistencia {
+  id           Int        @id @unique @default(autoincrement())
+  fecha        DateTime   @db.Date
+  ingreso      DateTime   @db.Time()
+  salida       DateTime   @db.Time()
+  // #https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#datetime
+  //se crea la relacion
+  trabajadorId Int        @map("trabajador_id")
+  trabajador   Trabajador @relation(fields: [trabajadorId], references: [id])
+
+  @@map("asistencias")
+}
+
+enum ROL_TRABAJADOR {
+  GERENTE
+  OBRERO
+  SUPERVISOR
+  PRACTICANTE
+}

@@ -1,0 +1,5 @@
+npx prisma init > inicializa nuestro proyecto con prisma (crea carpeta prisma)
+npx prisma migrate dev> revisa si hay alguna migracion y si la hay nos pedira nombfa-rotate-180
+* --preview-feauture > evita la creacion del cliente de prisma(@prisma/client)
+* --create-only> evita que la migracion se ejecute en la bd
+npx prisma migrate deploy> ejecuta las migraciones faltantes en la bd

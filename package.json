@@ -1,0 +1,41 @@
+{
+  "name": "textiles",
+  "version": "1.0.0",
+  "description": "API de una fabrica de textiles",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "dotenv -e .env -- nodemon ./src/server.js",
+    "generar:migracion": "npx prisma migrate dev",
+    "crear:migracion": "npx prisma migrate dev --preview-feauture --create-only",
+    "ejecutar:migracion": "npx prisma migrate deploy",
+    "start": "node ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevWebEdu/dev-backend.git"
+  },
+  "author": "Eduardo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevWebEdu/dev-backend/issues"
+  },
+  "homepage": "https://github.com/DevWebEdu/dev-backend#readme",
+  "dependencies": {
+    "@prisma/client": "^4.1.1",
+    "bcryptjs": "^2.4.3",
+    "crypto-js": "^4.1.1",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "nodemailer": "^6.7.7",
+    "prisma": "^4.1.1",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.4",
+    "dotenv-cli": "^6.0.0",
+    "nodemon": "^2.0.19"
+  }
+}
